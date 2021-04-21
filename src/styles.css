@@ -1,0 +1,17 @@
+html {
+  height: 100%;
+}
+
+body {
+  background-image: linear-gradient(to right, #e3fee9, #dbe7ff);
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  font-family: sans-serif;
+  text-align: center;
+}

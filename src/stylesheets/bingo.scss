@@ -19,6 +19,9 @@
       right: -5px;
     }
     .grid-item-value{
+      height: 10vw;
+      max-height: 100px;
+      min-height: 60px;
       display: flex;
       justify-content: center;
       flex-direction: column;
@@ -29,8 +32,58 @@
     text-decoration: line-through;
   }
   .grid-12{
-    background-color: red;
-    pointer-events: none;
+    background-color: red !important;
+    pointer-events: none !important;
+    text-decoration: none !important;
+    color: black !important;
+  }
+  .won-item{
+    background-color: #E5FEE2;
   }
 }
-// #E5FEE2;
+
+@media only screen and (max-width: 468px) {
+  .bingo-grid{
+    display: grid;
+    grid-template-columns: 75px 75px 75px 75px 75px;
+    grid-auto-rows: 75px;
+    margin-top: 100px;
+    transform: rotate(-2deg);
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: #FFFFFF;
+    .grid-item{
+      border: 1px solid black;
+      font-size: 9px;
+      padding: 0rem 1rem 0rem 1rem;
+      cursor: pointer;
+      .grid-item-id{
+        text-align: right;
+        margin-top: 5px;
+        position: relative;
+        right: -5px;
+      }
+      .grid-item-value{
+        height: 10vw;
+        max-height: 100px;
+        min-height: 60px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+    }
+    .active{
+      color: rgba(206, 204, 204, 0.966);
+      text-decoration: line-through;
+    }
+    .grid-12{
+      background-color: red !important;
+      pointer-events: none !important;
+      text-decoration: none !important;
+      color: black !important;
+    }
+    .won-item{
+      background-color: #E5FEE2;
+    }
+  }
+}

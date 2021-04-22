@@ -1,8 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./stylesheets/bingo.scss";
+import { start } from "./Confetti";
 
 export default function Bingo() {
   const [state, setState] = useState({ checked: { 12: true } });
+
+  function Confetti() {
+    useEffect(() => {
+      start();
+    });
+    return <canvas id="canvas" />;
+  }
 
   var bingoArray = [
     { id: 0, value: "child noises in the background" },
@@ -34,18 +42,73 @@ export default function Bingo() {
 
   const isWon = (checked) => {
     const range = [0, 1, 2, 3, 4];
-    return (
-      undefined !==
-        range.find((row) =>
-          range.every((column) => checked[row * 5 + column])
-        ) ||
-      undefined !==
-        range.find((column) =>
-          range.every((row) => checked[row * 5 + column])
-        ) ||
-      range.every((index) => checked[index * 5 + index]) ||
-      range.every((index) => checked[index * 5 + 4 - index])
-    );
+    var won = false;
+    //Traversing Rows
+    range.forEach((row) => {
+      var arr = [];
+      range.forEach((column) => {
+        if (checked[row * 5 + column]) {
+          arr.push(row * 5 + column);
+        }
+      });
+      if (arr.length === 5) {
+        arr.forEach((item) => {
+          document.getElementById(`grid-${item}`).className = `grid-item ${
+            item === 12 ? "grid-12" : ""
+          } active won-item`;
+        });
+        won = true;
+      }
+    });
+    //Traversing Columns
+    range.forEach((column) => {
+      var arr = [];
+      range.forEach((row) => {
+        if (checked[row * 5 + column]) {
+          arr.push(row * 5 + column);
+        }
+      });
+      if (arr.length === 5) {
+        arr.forEach((item) => {
+          document.getElementById(`grid-${item}`).className = `grid-item ${
+            item === 12 ? "grid-12" : ""
+          } active won-item`;
+        });
+        won = true;
+      }
+    });
+    //Traversing Left Diagonal
+    var Diag = [];
+    range.forEach((index) => {
+      if (checked[index * 5 + index]) {
+        Diag.push(index * 5 + index);
+      }
+      if (Diag.length === 5) {
+        Diag.forEach((item) => {
+          document.getElementById(`grid-${item}`).className = `grid-item ${
+            item === 12 ? "grid-12" : ""
+          } active won-item`;
+        });
+        won = true;
+      }
+    });
+    Diag.length = 0;
+    //Traversing Right Diagonal
+    range.forEach((index) => {
+      if (checked[index * 5 + 4 - index]) {
+        Diag.push(index * 5 + 4 - index);
+      }
+      if (Diag.length === 5) {
+        Diag.forEach((item) => {
+          document.getElementById(`grid-${item}`).className = `grid-item ${
+            item === 12 ? "grid-12" : ""
+          } active won-item`;
+        });
+        won = true;
+      }
+    });
+    Diag.length = 0;
+    return won;
   };
 
   const handleOnclick = (id) => {
@@ -66,10 +129,11 @@ export default function Bingo() {
         {bingoArray.map((item) => {
           return (
             <div
-              id={`grid ${item.id}`}
+              id={`grid-${item.id}`}
               key={item.id}
-              onClick={() => handleOnclick(item.id)}
-              className={`grid-item ${item.id === 12 ? "grid-12" : undefined} ${
+              onMouseDown={() => handleOnclick(item.id)}
+              onMouseUp={() => isWon(state.checked)}
+              className={`grid-item ${item.id === 12 ? "grid-12" : ""} ${
                 !!state.checked[item.id] && item.id !== 12 ? "active" : ""
               }`}
             >
@@ -79,7 +143,7 @@ export default function Bingo() {
           );
         })}
       </div>
-      {state.won ? "You Won" : null}
+      {state.won ? <Confetti /> : null}
     </>
   );
 }

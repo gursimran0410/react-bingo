@@ -27,7 +27,7 @@ export default function Bingo() {
     { id: 9, value: "Could You Share This Slide Afterwards" },
     { id: 10, value: "can somebody grant presenter rights" },
     { id: 11, value: "can you email that to everyone" },
-    { id: 12, value: "Conf Call Bingo?" },
+    { id: 12, value: "Conf Call Bingo" },
     { id: 13, value: "Sorry I had problems logging in" },
     { id: 14, value: "animal noises in the background" },
     { id: 15, value: "sorry I didnt found the conference id" },
@@ -215,7 +215,14 @@ export default function Bingo() {
               }`}
             >
               <div className="grid-item-id">{item.id}</div>
-              <div className="grid-item-value">{item.value}</div>
+              <div className="grid-item-value">
+                {item.id === 12 ? (
+                  <span role="img" aria-label="emoji">
+                    &#128526;
+                  </span>
+                ) : undefined}
+                {item.value}
+              </div>
             </div>
           );
         })}

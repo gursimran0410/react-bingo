@@ -4,6 +4,7 @@ import { start } from "./Confetti";
 
 export default function Bingo() {
   const [state, setState] = useState({ checked: { 12: true } });
+  var wonSeries = [[], [], [], []];
 
   function Confetti() {
     useEffect(() => {
@@ -58,6 +59,15 @@ export default function Bingo() {
           } active won-item`;
         });
         won = true;
+        let isPresent = false;
+        wonSeries[0].forEach((item) => {
+          if (JSON.stringify(item) === JSON.stringify(arr)) {
+            isPresent = true;
+          }
+        });
+        if (!isPresent) {
+          wonSeries[0].push(arr);
+        }
       }
     });
     //Traversing Columns
@@ -75,40 +85,88 @@ export default function Bingo() {
           } active won-item`;
         });
         won = true;
+        let isPresent = false;
+        wonSeries[1].forEach((item) => {
+          if (JSON.stringify(item) === JSON.stringify(arr)) {
+            isPresent = true;
+          }
+        });
+        if (!isPresent) {
+          wonSeries[1].push(arr);
+        }
       }
     });
     //Traversing Left Diagonal
-    var Diag = [];
-    range.forEach((index) => {
-      if (checked[index * 5 + index]) {
-        Diag.push(index * 5 + index);
-      }
-      if (Diag.length === 5) {
-        Diag.forEach((item) => {
-          document.getElementById(`grid-${item}`).className = `grid-item ${
-            item === 12 ? "grid-12" : ""
-          } active won-item`;
-        });
-        won = true;
-      }
-    });
-    Diag.length = 0;
+    if (true) {
+      let Diag = [];
+      range.forEach((index) => {
+        if (checked[index * 5 + index]) {
+          Diag.push(index * 5 + index);
+        }
+        if (Diag.length === 5) {
+          Diag.forEach((item) => {
+            document.getElementById(`grid-${item}`).className = `grid-item ${
+              item === 12 ? "grid-12" : ""
+            } active won-item`;
+          });
+          won = true;
+          let isPresent = false;
+          wonSeries[2].forEach((item) => {
+            if (JSON.stringify(item) === JSON.stringify(Diag)) {
+              isPresent = true;
+            }
+          });
+          if (!isPresent) {
+            wonSeries[2].push(Diag);
+          }
+        }
+      });
+    }
     //Traversing Right Diagonal
-    range.forEach((index) => {
-      if (checked[index * 5 + 4 - index]) {
-        Diag.push(index * 5 + 4 - index);
-      }
-      if (Diag.length === 5) {
-        Diag.forEach((item) => {
-          document.getElementById(`grid-${item}`).className = `grid-item ${
-            item === 12 ? "grid-12" : ""
-          } active won-item`;
-        });
-        won = true;
-      }
-    });
-    Diag.length = 0;
+    if (true) {
+      let Diag = [];
+      range.forEach((index) => {
+        if (checked[index * 5 + 4 - index]) {
+          Diag.push(index * 5 + 4 - index);
+        }
+        if (Diag.length === 5) {
+          Diag.forEach((item) => {
+            document.getElementById(`grid-${item}`).className = `grid-item ${
+              item === 12 ? "grid-12" : ""
+            } active won-item`;
+          });
+          won = true;
+          let isPresent = false;
+          wonSeries[3].forEach((item) => {
+            if (JSON.stringify(item) === JSON.stringify(Diag)) {
+              isPresent = true;
+            }
+          });
+          if (!isPresent) {
+            wonSeries[3].push(Diag);
+          }
+        }
+      });
+    }
+    won && timerFunction();
+    checkIfStillWon();
     return won;
+  };
+
+  const timerFunction = () => {
+    let timer;
+    clearInterval(timer);
+    timer = setTimeout(() => {
+      setState((state) => {
+        const checked = { ...state.checked };
+        const won = false;
+        return {
+          ...state,
+          checked,
+          won
+        };
+      });
+    }, 5000);
   };
 
   const handleOnclick = (id) => {
@@ -120,6 +178,27 @@ export default function Bingo() {
         checked,
         won
       };
+    });
+  };
+
+  const checkIfStillWon = () => {
+    console.log("1");
+    wonSeries.forEach((item) => {
+      console.log("2");
+      item.forEach((innerItem) => {
+        console.log("3");
+        innerItem.forEach((index) => {
+          console.log("4");
+          if (state.checked[index] === false) {
+            console.log("HERE");
+            innerItem.forEach((i) => {
+              document.getElementById(`grid-${i}`).className = `grid-item ${
+                item === 12 ? "grid-12" : ""
+              } active`;
+            });
+          }
+        });
+      });
     });
   };
 

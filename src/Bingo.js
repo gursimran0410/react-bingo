@@ -184,18 +184,16 @@ export default function Bingo() {
 
   const checkIfStillWon = () => {
     wonSeries.forEach((item) => {
-      // console.log("1", item);
       item.forEach((innerItem) => {
-        // console.log("2", innerItem);
         innerItem.forEach((index) => {
-          // console.log("3", index);
           if (state.checked[index] === false) {
-            // console.log("HERE");
             innerItem.forEach((i) => {
               document.getElementById(`grid-${i}`).className = `grid-item ${
                 i === 12 ? "grid-12" : ""
-              } active`;
+              } ${state.checked[i] ? "active" : ""}`;
             });
+            innerItem.length = 0;
+            return;
           }
         });
       });

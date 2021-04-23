@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import "./stylesheets/bingo.scss";
 import { start } from "./Confetti";
 
+var wonSeries = [[], [], [], []];
+
 export default function Bingo() {
   const [state, setState] = useState({ checked: { 12: true } });
-  var wonSeries = [[], [], [], []];
 
   function Confetti() {
     useEffect(() => {
@@ -182,18 +183,17 @@ export default function Bingo() {
   };
 
   const checkIfStillWon = () => {
-    console.log("1");
     wonSeries.forEach((item) => {
-      console.log("2");
+      // console.log("1", item);
       item.forEach((innerItem) => {
-        console.log("3");
+        // console.log("2", innerItem);
         innerItem.forEach((index) => {
-          console.log("4");
+          // console.log("3", index);
           if (state.checked[index] === false) {
-            console.log("HERE");
+            // console.log("HERE");
             innerItem.forEach((i) => {
               document.getElementById(`grid-${i}`).className = `grid-item ${
-                item === 12 ? "grid-12" : ""
+                i === 12 ? "grid-12" : ""
               } active`;
             });
           }

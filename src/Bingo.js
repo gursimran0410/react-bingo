@@ -207,10 +207,18 @@ export default function Bingo() {
             let temp = bingoArray[i];
             bingoArray[i] = bingoArray[j];
             bingoArray[j] = temp;
+            break;
           }
         }
       }
     }
+    for (var k = 0; k < bingoArray.length; k++) {
+      bingoArray[k].id = k;
+    }
+    // setArray((bingoArray) => {
+
+    //   return { bingoArray };
+    // });
   };
 
   const handleOnclick = (id) => {
